@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Alumnos y Capacitaciones | proyectodemospbt</title>
-    <meta name="description" content="Portal de gestión de alumnos y capacitaciones del proyecto proyectodemospbt">
+    <title>Panel Educativo | proyectodemospbt</title>
+    <meta name="description" content="Portal de gestión de alumnos, profesores y capacitaciones">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,710 +14,277 @@
     <!-- FontAwesome para Iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <style>
-        :root {
-            --bg-gradient: linear-gradient(135deg, #090d16 0%, #111827 50%, #0f172a 100%);
-            --primary: #6366f1;
-            --primary-glow: rgba(99, 102, 241, 0.4);
-            --secondary: #a855f7;
-            --secondary-glow: rgba(168, 85, 247, 0.4);
-            --accent: #10b981;
-            --accent-glow: rgba(16, 185, 129, 0.3);
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.07);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --card-radius: 20px;
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Outfit', sans-serif;
-        }
-
-        body {
-            background: var(--bg-gradient);
-            color: var(--text-main);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
-
-        /* Fondo Decorativo Dinámico */
-        .ambient-glow-1 {
-            position: absolute;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, var(--primary-glow) 0%, transparent 70%);
-            top: -200px;
-            left: -200px;
-            z-index: 0;
-            pointer-events: none;
-            filter: blur(80px);
-        }
-
-        .ambient-glow-2 {
-            position: absolute;
-            width: 600px;
-            height: 600px;
-            background: radial-gradient(circle, var(--secondary-glow) 0%, transparent 70%);
-            bottom: -200px;
-            right: -200px;
-            z-index: 0;
-            pointer-events: none;
-            filter: blur(100px);
-        }
-
-        header {
-            position: relative;
-            z-index: 10;
-            padding: 40px 20px;
-            text-align: center;
-            border-bottom: 1px solid var(--glass-border);
-            backdrop-filter: blur(12px);
-            background: rgba(9, 13, 22, 0.5);
-        }
-
-        .header-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .header-badge {
-            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            box-shadow: 0 4px 15px var(--primary-glow);
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            background: linear-gradient(to right, #ffffff, #e2e8f0, #94a3b8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            letter-spacing: -0.5px;
-        }
-
-        header p {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            max-width: 600px;
-        }
-
-        main {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            width: 100%;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 40px;
-            flex-grow: 1;
-        }
-
-        @media (max-width: 968px) {
-            main {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* Estilo de Tarjetas Glassmorphism */
-        .glass-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--card-radius);
-            backdrop-filter: blur(20px);
-            padding: 30px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            transition: var(--transition);
-        }
-
-        .glass-card:hover {
-            border-color: rgba(255, 255, 255, 0.15);
-            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
-        }
-
-        .card-title {
-            font-size: 1.4rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 15px;
-        }
-
-        .card-title i {
-            color: var(--primary);
-            background: rgba(99, 102, 241, 0.15);
-            padding: 10px;
-            border-radius: 12px;
-        }
-
-        /* Estilos del Formulario */
-        .form-group {
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        label {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-            text-transform: uppercase;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            transition: var(--transition);
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid var(--glass-border);
-            border-radius: 12px;
-            padding: 14px 16px 14px 44px;
-            color: var(--text-main);
-            font-size: 1rem;
-            font-weight: 400;
-            outline: none;
-            transition: var(--transition);
-        }
-
-        input[type="text"]:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 15px var(--primary-glow);
-            background: rgba(0, 0, 0, 0.35);
-        }
-
-        input[type="text"]:focus + i, select:focus + i {
-            color: var(--primary);
-        }
-
-        /* Checkbox de Capacitaciones Estilo Pastillas (Pills) */
-        .pills-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 5px;
-        }
-
-        .pill-checkbox {
-            position: relative;
-        }
-
-        .pill-checkbox input[type="checkbox"] {
-            position: absolute;
-            opacity: 0;
-            cursor: pointer;
-            height: 0;
-            width: 0;
-        }
-
-        .pill-label {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-weight: 500;
-            cursor: pointer;
-            user-select: none;
-            transition: var(--transition);
-        }
-
-        .pill-checkbox input[type="checkbox"]:checked + .pill-label {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border-color: transparent;
-            box-shadow: 0 5px 15px var(--primary-glow);
-            color: white;
-        }
-
-        .pill-checkbox:hover .pill-label {
-            border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        /* Botón Premium */
-        .btn-submit {
-            width: 100%;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            border: none;
-            border-radius: 12px;
-            padding: 16px;
-            color: white;
-            font-size: 1.05rem;
-            font-weight: 600;
-            cursor: pointer;
-            box-shadow: 0 8px 25px var(--primary-glow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            transition: var(--transition);
-            margin-top: 25px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(168, 85, 247, 0.5);
-            filter: brightness(1.1);
-        }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
-
-        /* Lista de Alumnos Grid */
-        .students-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            max-height: 600px;
-            overflow-y: auto;
-            padding-right: 8px;
-        }
-
-        .students-grid::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .students-grid::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.01);
-        }
-
-        .students-grid::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-        }
-
-        /* Tarjeta de Alumno Registrado */
-        .student-card {
-            background: rgba(255, 255, 255, 0.015);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: var(--transition);
-        }
-
-        .student-card:hover {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: rgba(99, 102, 241, 0.2);
-            transform: translateX(5px);
-        }
-
-        .student-info {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .student-avatar {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(168, 85, 247, 0.2) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 1.2rem;
-            font-weight: 700;
-        }
-
-        .student-details h3 {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 4px;
-        }
-
-        .student-pseudo {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            background: rgba(255, 255, 255, 0.05);
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-family: monospace;
-        }
-
-        .student-caps {
-            margin-top: 8px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .cap-tag {
-            font-size: 0.75rem;
-            font-weight: 600;
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--accent);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            padding: 3px 8px;
-            border-radius: 50px;
-        }
-
-        .no-students {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--text-muted);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .no-students i {
-            font-size: 3rem;
-            color: rgba(255, 255, 255, 0.05);
-        }
-
-        /* Notificaciones */
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(16, 185, 129, 0.95);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            z-index: 100;
-            transform: translateY(100px);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .toast.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        .toast.error {
-            background: rgba(239, 68, 68, 0.95);
-        }
-
-        footer {
-            margin-top: auto;
-            text-align: center;
-            padding: 30px;
-            border-top: 1px solid var(--glass-border);
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            position: relative;
-            z-index: 10;
-        }
-    </style>
+    <!-- Estilos Externos -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="ambient-glow-1"></div>
-    <div class="ambient-glow-2"></div>
-
     <header>
         <div class="header-content">
-            <span class="header-badge" id="appBadge">Spring Boot API</span>
-            <h1 id="appTitle">Panel de Alumnos y Capacitaciones</h1>
-            <p id="appDescription">Visualiza, registra y asocia tus estudiantes a diferentes cursos de manera instantánea y automatizada.</p>
+            <span class="header-badge">Sistema Académico</span>
+            <h1>Panel de Control Escolar</h1>
+            <p>Visualiza y administra de forma centralizada la información académica de la institución.</p>
         </div>
+        <!-- Botón de cierre de sesión -->
+        <form action="/logout" method="post" style="margin:0;">
+            <input type="hidden" name="_csrf" id="csrfToken" value="">
+            <button type="submit" class="btn-logout" id="btnLogout" title="Cerrar sesión">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Salir</span>
+            </button>
+        </form>
     </header>
 
+    <!-- Pestañas de Navegación -->
+    <nav class="nav-tabs">
+        <button class="nav-tab active" onclick="switchTab('dashboard')">
+            <i class="fa-solid fa-chart-line"></i> Resumen
+        </button>
+        <button class="nav-tab" onclick="switchTab('alumnos')">
+            <i class="fa-solid fa-graduation-cap"></i> Estudiantes
+        </button>
+        <button class="nav-tab" onclick="switchTab('capacitaciones')">
+            <i class="fa-solid fa-bookmark"></i> Cursos
+        </button>
+        <button class="nav-tab" onclick="switchTab('profesores')">
+            <i class="fa-solid fa-chalkboard-user"></i> Profesores
+        </button>
+    </nav>
+
     <main>
-        <!-- Columna Izquierda: Formulario de Registro -->
-        <section class="glass-card">
-            <h2 class="card-title" id="formTitle">
-                <i class="fa-solid fa-user-plus"></i>
-                Registrar Alumno
-            </h2>
-            
-            <form id="studentForm">
-                <div class="form-group">
-                    <label for="nombre">Nombre Completo</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="nombre" placeholder="Ej. Juan Pérez" required>
-                        <i class="fa-solid fa-user"></i>
+        
+        <!-- PESTAÑA: RESUMEN (DASHBOARD) -->
+        <section id="tab-dashboard" class="tab-content active">
+            <!-- Tarjetas de estadísticas -->
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-graduation-cap"></i></div>
+                    <div class="stat-info">
+                        <h4>Total Estudiantes</h4>
+                        <div class="stat-number" id="stat-alumnos">0</div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="pseudonimo">Pseudónimo</label>
-                    <div class="input-wrapper">
-                        <input type="text" id="pseudonimo" placeholder="Ej. juanp_99" required>
-                        <i class="fa-solid fa-user-ninja"></i>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-bookmark"></i></div>
+                    <div class="stat-info">
+                        <h4>Total Cursos</h4>
+                        <div class="stat-number" id="stat-cursos">0</div>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label>Capacitaciones</label>
-                    <div class="pills-container" id="capacitacionesContainer">
-                        <!-- Se cargarán dinámicamente desde el backend -->
-                        <div style="color: var(--text-muted); font-size: 0.9rem;">
-                            Cargando capacitaciones disponibles...
-                        </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><i class="fa-solid fa-user-tie"></i></div>
+                    <div class="stat-info">
+                        <h4>Total Profesores</h4>
+                        <div class="stat-number" id="stat-profesores">0</div>
                     </div>
                 </div>
+            </div>
 
-                <button type="submit" class="btn-submit" id="btnGuardar">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                    Guardar Datos
-                </button>
-            </form>
-        </section>
-
-        <!-- Columna Derecha: Listado de Alumnos -->
-        <section class="glass-card">
-            <h2 class="card-title" id="listTitle">
-                <i class="fa-solid fa-users"></i>
-                Estudiantes Registrados
-            </h2>
-
-            <div class="students-grid" id="studentsGrid">
-                <!-- Se cargarán dinámicamente -->
-                <div class="no-students">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                    <p>No hay ningún alumno registrado en la base de datos.</p>
+            <!-- Tabla de ocupación de cursos -->
+            <div class="glass-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-list-check"></i>
+                    Ocupación y Docentes por Curso
+                </h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nombre del Curso</th>
+                                <th>Docente a Cargo</th>
+                                <th>Especialidad</th>
+                                <th>Alumnos Inscritos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="occupancyTableBody">
+                            <!-- Carga Dinámica -->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </section>
+        
+        <!-- PESTAÑA: ESTUDIANTES -->
+        <section id="tab-alumnos" class="tab-content">
+            <!-- Formulario de Estudiantes -->
+            <div class="glass-card">
+                <h2 class="card-title" id="aluFormTitle">
+                    <i class="fa-solid fa-user-plus"></i>
+                    Registrar Estudiante
+                </h2>
+                
+                <form id="aluForm">
+                    <input type="hidden" id="aluId" value="">
+                    
+                    <div class="form-group">
+                        <label for="aluNombre">Nombre Completo</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="aluNombre" placeholder="Ej. Gonzalo Mascareño" required>
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="aluPseudo">Pseudónimo</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="aluPseudo" placeholder="Ej. gonza_m" required>
+                            <i class="fa-solid fa-user-ninja"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cursos Inscritos</label>
+                        <div class="pills-container" id="aluCapsContainer">
+                            <!-- Dinámico -->
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="aluBtnSubmit">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar Alumno
+                    </button>
+                    <button type="button" class="btn-cancel" id="aluBtnCancel" style="display: none;" onclick="cancelarEdicion('alu')">
+                        <i class="fa-solid fa-ban"></i> Cancelar Edición
+                    </button>
+                </form>
+            </div>
+
+            <!-- Listado de Estudiantes -->
+            <div class="glass-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-users"></i>
+                    Lista de Estudiantes
+                </h2>
+                <div class="items-grid" id="aluGrid">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PESTAÑA: CAPACITACIONES (CURSOS) -->
+        <section id="tab-capacitaciones" class="tab-content">
+            <!-- Formulario de Cursos -->
+            <div class="glass-card">
+                <h2 class="card-title" id="capFormTitle">
+                    <i class="fa-solid fa-circle-plus"></i>
+                    Registrar Curso
+                </h2>
+                
+                <form id="capForm">
+                    <input type="hidden" id="capId" value="">
+                    
+                    <div class="form-group">
+                        <label for="capNombre">Nombre del Curso</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="capNombre" placeholder="Ej. Desarrollo Web con Spring" required>
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="capProfesor">Profesor Dictante</label>
+                        <div class="input-wrapper">
+                            <select id="capProfesor" required>
+                                <option value="" disabled selected>Selecciona un Profesor</option>
+                                <!-- Dinámico -->
+                            </select>
+                            <i class="fa-solid fa-user-tie"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="capBtnSubmit">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar Curso
+                    </button>
+                    <button type="button" class="btn-cancel" id="capBtnCancel" style="display: none;" onclick="cancelarEdicion('cap')">
+                        <i class="fa-solid fa-ban"></i> Cancelar Edición
+                    </button>
+                </form>
+            </div>
+
+            <!-- Listado de Cursos -->
+            <div class="glass-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-book"></i>
+                    Cursos Ofertados
+                </h2>
+                <div class="items-grid" id="capGrid">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PESTAÑA: PROFESORES -->
+        <section id="tab-profesores" class="tab-content">
+            <!-- Formulario de Profesores -->
+            <div class="glass-card">
+                <h2 class="card-title" id="profFormTitle">
+                    <i class="fa-solid fa-user-tie"></i>
+                    Registrar Profesor
+                </h2>
+                
+                <form id="profForm">
+                    <input type="hidden" id="profId" value="">
+                    
+                    <div class="form-group">
+                        <label for="profNombre">Nombre</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="profNombre" placeholder="Ej. Carlos" required>
+                            <i class="fa-solid fa-address-card"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profApellido">Apellido</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="profApellido" placeholder="Ej. Pérez" required>
+                            <i class="fa-solid fa-address-card"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profEspecialidad">Especialidad</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="profEspecialidad" placeholder="Ej. Matemáticas Aplicadas" required>
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="profBtnSubmit">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        Guardar Profesor
+                    </button>
+                    <button type="button" class="btn-cancel" id="profBtnCancel" style="display: none;" onclick="cancelarEdicion('prof')">
+                        <i class="fa-solid fa-ban"></i> Cancelar Edición
+                    </button>
+                </form>
+            </div>
+
+            <!-- Listado de Profesores -->
+            <div class="glass-card">
+                <h2 class="card-title">
+                    <i class="fa-solid fa-users-rectangle"></i>
+                    Plantel Docente
+                </h2>
+                <div class="items-grid" id="profGrid">
+                    <!-- Dinámico -->
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- Notificaciones flotantes -->
+    <!-- Notificación flotante -->
     <div id="toast" class="toast">
         <i class="fa-solid fa-circle-check"></i>
         <span id="toastMessage">Operación realizada con éxito</span>
     </div>
 
     <footer>
-        <p>© 2026 - proyectodemospbt - IntelliJ IDEA & MySQL Workbench. Desarrollado con ❤️ en Spring Boot.</p>
+        <p>© 2026 - proyectodemospbt - IntelliJ IDEA & MySQL Workbench. CRUD robusto desarrollado con Spring Boot & JPA.</p>
     </footer>
 
-    <script>
-        const API_CAPACITACIONES = '/api/v1/capacitaciones';
-        const API_ALUMNOS = '/api/v1/alumnos';
-
-        document.addEventListener('DOMContentLoaded', () => {
-            cargarCapacitaciones();
-            cargarAlumnos();
-
-            document.getElementById('studentForm').addEventListener('submit', guardarAlumno);
-        });
-
-        // Mostrar notificación flotante
-        function showToast(message, isError = false) {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toastMessage');
-            
-            toastMsg.innerText = message;
-            
-            if (isError) {
-                toast.classList.add('error');
-                toast.querySelector('i').className = 'fa-solid fa-circle-xmark';
-            } else {
-                toast.classList.remove('error');
-                toast.querySelector('i').className = 'fa-solid fa-circle-check';
-            }
-            
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-        // Obtener capacitaciones desde la API REST
-        async function cargarCapacitaciones() {
-            try {
-                const response = await fetch(API_CAPACITACIONES);
-                if (!response.ok) throw new Error('Error al conectar con la API de capacitaciones');
-                const capacitaciones = await response.json();
-                
-                const container = document.getElementById('capacitacionesContainer');
-                container.innerHTML = '';
-
-                if (capacitaciones.length === 0) {
-                    container.innerHTML = '<span style="color: var(--text-muted);">No hay capacitaciones configuradas.</span>';
-                    return;
-                }
-
-                capacitaciones.forEach(cap => {
-                    const checkboxWrapper = document.createElement('div');
-                    checkboxWrapper.className = 'pill-checkbox';
-                    
-                    checkboxWrapper.innerHTML = `
-                        <input type="checkbox" id="cap_${cap.id_cap}" value="${cap.id_cap}" data-name="${cap.nombre}">
-                        <label for="cap_${cap.id_cap}" class="pill-label">
-                            <i class="fa-solid fa-bookmark" style="margin-right: 6px; font-size: 0.8rem; opacity: 0.7;"></i>
-                            ${cap.nombre}
-                        </label>
-                    `;
-                    container.appendChild(checkboxWrapper);
-                });
-            } catch (error) {
-                console.error(error);
-                document.getElementById('capacitacionesContainer').innerHTML = 
-                    `<span style="color: #ef4444; font-size: 0.9rem;"><i class="fa-solid fa-triangle-exclamation"></i> Error al cargar capacitaciones</span>`;
-            }
-        }
-
-        // Obtener alumnos registrados desde la API REST
-        async function cargarAlumnos() {
-            try {
-                const response = await fetch(API_ALUMNOS);
-                if (!response.ok) throw new Error('Error al conectar con la API de alumnos');
-                const alumnos = await response.json();
-
-                const grid = document.getElementById('studentsGrid');
-                grid.innerHTML = '';
-
-                if (alumnos.length === 0) {
-                    grid.innerHTML = `
-                        <div class="no-students">
-                            <i class="fa-solid fa-graduation-cap"></i>
-                            <p>No hay alumnos en la base de datos.</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                alumnos.forEach(alu => {
-                    const card = document.createElement('div');
-                    card.className = 'student-card';
-
-                    // Iniciales del nombre
-                    const iniciales = alu.nombre.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
-
-                    // Mapear etiquetas de capacitaciones
-                    const capTags = alu.capacitaciones && alu.capacitaciones.length > 0
-                        ? alu.capacitaciones.map(c => `<span class="cap-tag">${c.nombre}</span>`).join('')
-                        : '<span style="color: var(--text-muted); font-size: 0.75rem; font-style: italic;">Sin capacitaciones asignadas</span>';
-
-                    card.innerHTML = `
-                        <div class="student-info">
-                            <div class="student-avatar">${iniciales}</div>
-                            <div class="student-details">
-                                <h3>${alu.nombre}</h3>
-                                <span class="student-pseudo">@${alu.pseudonimo}</span>
-                                <div class="student-caps">
-                                    ${capTags}
-                                </div>
-                            </div>
-                        </div>
-                        <button onclick="eliminarAlumno(${alu.id_alu})" style="background: none; border: none; color: #ef4444; opacity: 0.7; cursor: pointer; transition: 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.7">
-                            <i class="fa-solid fa-trash-can" style="font-size: 1.1rem;"></i>
-                        </button>
-                    `;
-                    grid.appendChild(card);
-                });
-            } catch (error) {
-                console.error(error);
-                document.getElementById('studentsGrid').innerHTML = `
-                    <div class="no-students" style="color: #ef4444;">
-                        <i class="fa-solid fa-circle-exclamation"></i>
-                        <p>Error al conectar con el servidor.</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Registrar un nuevo Alumno
-        async function guardarAlumno(e) {
-            e.preventDefault();
-
-            const nombre = document.getElementById('nombre').value.trim();
-            const pseudonimo = document.getElementById('pseudonimo').value.trim();
-
-            // Obtener checkboxes seleccionados
-            const checkboxes = document.querySelectorAll('#capacitacionesContainer input[type="checkbox"]:checked');
-            const capacitaciones = Array.from(checkboxes).map(cb => ({
-                id_cap: parseInt(cb.value),
-                nombre: cb.getAttribute('data-name')
-            }));
-
-            const payload = {
-                nombre: nombre,
-                pseudonimo: pseudonimo,
-                capacitaciones: capacitaciones
-            };
-
-            try {
-                const response = await fetch(API_ALUMNOS, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) throw new Error('No se pudo guardar el alumno.');
-
-                showToast('¡Datos guardados con éxito!');
-                
-                // Limpiar formulario
-                document.getElementById('studentForm').reset();
-                
-                // Recargar listado y recargar checkboxes
-                cargarAlumnos();
-                cargarCapacitaciones();
-            } catch (error) {
-                console.error(error);
-                showToast(error.message || 'Error al guardar los datos', true);
-            }
-        }
-
-        // Eliminar un alumno
-        async function eliminarAlumno(id) {
-            if (!confirm('¿Estás seguro de que deseas eliminar este alumno?')) return;
-
-            try {
-                const response = await fetch(`${API_ALUMNOS}/${id}`, {
-                    method: 'DELETE'
-                });
-
-                if (!response.ok) throw new Error('No se pudo eliminar el alumno.');
-
-                showToast('Alumno eliminado correctamente');
-                cargarAlumnos();
-            } catch (error) {
-                console.error(error);
-                showToast('Error al intentar eliminar el alumno', true);
-            }
-        }
-    </script>
+    <!-- Lógica Externa en JS -->
+    <script src="app.js"></script>
 </body>
 </html>

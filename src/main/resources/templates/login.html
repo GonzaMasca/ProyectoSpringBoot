@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Panel Educativo</title>
+    <meta name="description" content="Acceso al sistema de gestión académica">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg-page:       #f0f2f5;
+            --bg-card:       #ffffff;
+            --accent:        #1a1a2e;
+            --accent-hover:  #16213e;
+            --border:        #d1d5db;
+            --text-primary:  #111827;
+            --text-secondary:#4b5563;
+            --text-muted:    #9ca3af;
+            --error-bg:      #fef2f2;
+            --error-border:  #fca5a5;
+            --error-text:    #b91c1c;
+            --success-bg:    #f0fdf4;
+            --success-border:#86efac;
+            --success-text:  #15803d;
+            --radius:        12px;
+            --shadow:        0 8px 32px rgba(0,0,0,0.10);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-page);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* Fondo decorativo sutil */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(26,26,46,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 50% 35% at 80% 20%, rgba(26,26,46,0.05) 0%, transparent 55%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 440px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Encabezado */
+        .login-brand {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-brand .brand-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--accent);
+            border-radius: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 16px rgba(26,26,46,0.20);
+        }
+
+        .login-brand .brand-icon i {
+            font-size: 1.75rem;
+            color: #fff;
+        }
+
+        .login-brand h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.5px;
+        }
+
+        .login-brand p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-top: 0.35rem;
+        }
+
+        /* Tarjeta principal */
+        .login-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2.5rem 2.25rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        /* Alertas */
+        .alert {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+
+        .alert-error {
+            background: var(--error-bg);
+            border: 1px solid var(--error-border);
+            color: var(--error-text);
+        }
+
+        .alert-success {
+            background: var(--success-bg);
+            border: 1px solid var(--success-border);
+            color: var(--success-text);
+        }
+
+        /* Formulario */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper input {
+            width: 100%;
+            padding: 0.75rem 1rem 0.75rem 2.75rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(26,26,46,0.08);
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 0.9rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+
+        /* Botón de ingreso */
+        .btn-login {
+            width: 100%;
+            padding: 0.875rem 1.5rem;
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+            letter-spacing: 0.01em;
+        }
+
+        .btn-login:hover {
+            background: var(--accent-hover);
+            box-shadow: 0 4px 14px rgba(26,26,46,0.22);
+            transform: translateY(-1px);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        /* Credenciales de ejemplo */
+        .demo-hint {
+            margin-top: 1.5rem;
+            padding: 0.9rem 1rem;
+            background: #f8fafc;
+            border: 1px dashed var(--border);
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .demo-hint p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+        }
+
+        .demo-hint strong {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Footer */
+        .login-footer {
+            text-align: center;
+            margin-top: 1.75rem;
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-wrapper">
+
+        <!-- Encabezado con logo -->
+        <div class="login-brand">
+            <div class="brand-icon">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <h1>Panel Educativo</h1>
+            <p>Ingresá tus credenciales para acceder al sistema</p>
+        </div>
+
+        <!-- Tarjeta de login -->
+        <div class="login-card">
+
+            <!-- Mensaje de error -->
+            <div th:if="${param.error}" class="alert alert-error">
+                <i class="fa-solid fa-circle-xmark"></i>
+                <span>Usuario o contraseña incorrectos. Intentá nuevamente.</span>
+            </div>
+
+            <!-- Mensaje de logout exitoso -->
+            <div th:if="${param.logout}" class="alert alert-success">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>Sesión cerrada correctamente. ¡Hasta pronto!</span>
+            </div>
+
+            <!-- Formulario — action y method son procesados por Spring Security -->
+            <form th:action="@{/login}" method="post" id="loginForm">
+
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Ingresá tu usuario"
+                            autocomplete="username"
+                            required
+                            autofocus>
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <div class="input-wrapper">
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Ingresá tu contraseña"
+                            autocomplete="current-password"
+                            required>
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-login" id="btnLogin">
+                    <i class="fa-solid fa-right-to-bracket"></i>
+                    Ingresar al Sistema
+                </button>
+
+            </form>
+
+            <!-- Pista de credenciales por defecto -->
+            <div class="demo-hint">
+                <p>Credenciales de acceso por defecto:</p>
+                <strong><i class="fa-solid fa-user" style="font-size:0.75rem; margin-right:4px;"></i>admin</strong>
+                &nbsp;/&nbsp;
+                <strong><i class="fa-solid fa-key" style="font-size:0.75rem; margin-right:4px;"></i>admin123</strong>
+            </div>
+        </div>
+
+        <div class="login-footer">
+            © 2026 · proyectodemospbt · Spring Boot &amp; JPA
+        </div>
+    </div>
+
+</body>
+</html>

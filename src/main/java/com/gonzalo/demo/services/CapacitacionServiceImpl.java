@@ -1,7 +1,9 @@
 package com.gonzalo.demo.services;
 
 import com.gonzalo.demo.entities.Capacitacion;
+import com.gonzalo.demo.entities.Profesor;
 import com.gonzalo.demo.repositories.CapacitacionRepository;
+import com.gonzalo.demo.repositories.ProfesorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,9 @@ public class CapacitacionServiceImpl implements CapacitacionService {
 
     @Autowired
     private CapacitacionRepository capacitacionRepository;
+
+    @Autowired
+    private ProfesorRepository profesorRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -40,6 +45,16 @@ public class CapacitacionServiceImpl implements CapacitacionService {
     @Transactional
     public Capacitacion save(Capacitacion cap) throws Exception {
         try {
+            if (cap.getProfesor() != null) {
+                Optional<Profesor> dbProf = profesorRepository.findById(cap.getProfesor().getId_prof());
+                if (dbProf.isPresent()) {
+                    cap.setProfesor(dbProf.get());
+                } else {
+                    throw new Exception("El profesor asignado no existe.");
+                }
+            } else {
+                throw new Exception("Es requerido asignar un profesor a la capacitación.");
+            }
             return capacitacionRepository.save(cap);
         } catch (Exception e) {
             throw new Exception(e.getMessage());
@@ -54,6 +69,18 @@ public class CapacitacionServiceImpl implements CapacitacionService {
             if (optional.isPresent()) {
                 Capacitacion capExistente = optional.get();
                 capExistente.setNombre(cap.getNombre());
+                
+                if (cap.getProfesor() != null) {
+                    Optional<Profesor> dbProf = profesorRepository.findById(cap.getProfesor().getId_prof());
+                    if (dbProf.isPresent()) {
+                        capExistente.setProfesor(dbProf.get());
+                    } else {
+                        throw new Exception("El profesor asignado no existe.");
+                    }
+                } else {
+                    throw new Exception("Es requerido asignar un profesor a la capacitación.");
+                }
+
                 if (cap.getNiveles() != null) {
                     capExistente.setNiveles(cap.getNiveles());
                 }
@@ -75,7 +102,7 @@ public class CapacitacionServiceImpl implements CapacitacionService {
             }
             return false;
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new Exception("No se puede eliminar la capacitación porque tiene alumnos inscritos.");
         }
     }
 }

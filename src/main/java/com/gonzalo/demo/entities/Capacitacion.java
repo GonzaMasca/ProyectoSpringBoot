@@ -23,6 +23,10 @@ public class Capacitacion implements Serializable {
     @Basic
     private String nombre;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "profesor_id", nullable = true) // Hacemos nullable en DB para facilidad de migración
+    private Profesor profesor;
+
     @Transient // No se persiste en base de datos ya que Nivel no es una entidad JPA en el parcial original
     private List<Nivel> niveles = new ArrayList<>();
 
@@ -33,6 +37,12 @@ public class Capacitacion implements Serializable {
     public Capacitacion(int id_cap, String nombre) {
         this.id_cap = id_cap;
         this.nombre = nombre;
+    }
+
+    public Capacitacion(int id_cap, String nombre, Profesor profesor) {
+        this.id_cap = id_cap;
+        this.nombre = nombre;
+        this.profesor = profesor;
     }
 
     public void addAlumnos(Alumno alumno) {
